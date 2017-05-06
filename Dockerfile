@@ -23,6 +23,20 @@ RUN apt-get update \
 # install global node components
 RUN npm install -g bower mversion gulp typescript ts-node @angular/cli polymer-cli@next
 
+# phantomjs setup
+ENV PHANTOMJS_VERSION 2.1.1
+
+# download & install
+RUN apt-get update \
+  && apt-get install build-essential chrpath libssl-dev libxft-dev -y \
+  && apt-get install libfreetype6 libfreetype6-dev -y \
+  && apt-get install libfontconfig1 libfontconfig1-dev -y
+
+RUN wget -q -O /tmp/phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releases/download/v${PHANTOMJS_VERSION}/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2 \
+  && tar xvjf /tmp/phantomjs.tar.bz2 \
+  && mv phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/ /usr/local/share \
+  && ln -sf /usr/local/share/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/bin/phantomjs /usr/local/bin
+
 # copy ssh-config
 COPY ssh-config /root/.ssh-config
 
