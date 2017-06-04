@@ -20,9 +20,6 @@ RUN apt-get update \
   && tar -xJf /tmp/node.xz -C /usr/local --strip-components=1 \
   && rm /tmp/node.xz
 
-# install global node components
-RUN npm install -g bower mversion gulp typescript ts-node @angular/cli polymer-cli@next
-
 # phantomjs setup
 ENV PHANTOMJS_VERSION 2.1.1
 
@@ -36,6 +33,9 @@ RUN wget -q -O /tmp/phantomjs.tar.bz2 https://github.com/Medium/phantomjs/releas
   && tar xvjf /tmp/phantomjs.tar.bz2 \
   && mv phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/ /usr/local/share \
   && ln -sf /usr/local/share/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/bin/phantomjs /usr/local/bin
+
+# install global node components
+RUN npm install -g bower mversion gulp typescript ts-node @angular/cli polymer-cli
 
 # copy ssh-config
 COPY ssh-config /root/.ssh-config
